@@ -11,7 +11,6 @@ import (
 const (
 	baseTermSearchURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/term/search?mode=search&term=201620"
 	classSearchURL    = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/classSearch/classSearch"
-	termSearchURL     = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?searchTerm=&offset=1&max=10"
 	sampleURL         = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/searchResults/searchResults?txt_subject=ACCT&txt_term=201620&startDatepicker=&endDatepicker=&pageOffset=0&pageMaxSize=10&sortColumn=subjectDescription&sortDirection=asc"
 )
 
@@ -33,21 +32,28 @@ func main() {
 		log.Fatal(err)
 	}
 
-	r, err = doGet(client, termSearchURL)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	//fmt.Println(r)
-
 	r, err = doGet(client, sampleURL)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Println(r)
-	fmt.Println(client.Jar)
 	fmt.Println("Done")
+}
+
+func setupClient() (*http.Client, error) {
+	cookieJar, err := cookiejar.New(nil)
+
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	client := &http.Client{
+		Jar: cookieJar,
+	}
+
+	return client, err
 }
 
 func doGet(c *http.Client, URL string) (string, error) {
