@@ -10,52 +10,16 @@ import (
 )
 
 const (
-	baseURL           = "https://ssb.cc.nd.edu"
-	baseTermSearchURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/term/termSelection?mode=search"
+	baseTermSearchURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/term/search?mode=search&term=201620"
 	classSearchURL    = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/classSearch/classSearch"
 	termSearchURL     = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?searchTerm=&offset=1&max=10"
 	sampleURL         = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/searchResults/searchResults?txt_subject=ACCT&txt_term=201620&startDatepicker=&endDatepicker=&pageOffset=0&pageMaxSize=10&sortColumn=subjectDescription&sortDirection=asc"
 )
 
-func authenticateClient(client *http.Client) []*http.Cookie {
-	resp, err := client.Get(baseTermSearchURL)
-	defer resp.Body.Close()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	_, respBodyErr := ioutil.ReadAll(resp.Body)
-
-	if respBodyErr != nil {
-		log.Fatal(err)
-	}
-
-	return resp.Cookies()
-}
-
-func sendTermRequest(client *http.Client) *http.Response {
-	searchResp, err := client.Get(termSearchURL)
-	defer searchResp.Body.Close()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	_, searchErr := ioutil.ReadAll(searchResp.Body)
-
-	if searchErr != nil {
-		log.Fatal(searchErr)
-	}
-
-	return searchResp
-}
-
 func main() {
 	fmt.Println("Starting Program!")
 
-	cookieJar, _ := cookiejar.New(nil)
-	u, err := url.Parse(baseURL)
+	cookieJar, err := cookiejar.New(nil)
 
 	if err != nil {
 		log.Fatal(err)
@@ -65,31 +29,56 @@ func main() {
 		Jar: cookieJar,
 	}
 
-	cookies := authenticateClient(client)
+	r, err := doGet(client, baseTermSearchURL)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	u, err = url.Parse(sampleURL)
+	r, err = doGet(client, termSearchURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//fmt.Println(r)
+
+	r, err = doGet(client, sampleURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(r)
+	fmt.Println(client.Jar)
+	fmt.Println("Done")
+}
+
+func doGet(c *http.Client, URL string) (string, error) {
+	u, err := url.Parse(URL)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	client.Jar.SetCookies(u, cookies)
+	cookies := c.Jar.Cookies(u)
 
-	resp, err := client.Get(sampleURL)
+	fmt.Println(cookies)
+	if len(cookies) == 0 {
+		fmt.Println("No cookies set.")
+		authURL, _ := url.Parse(baseTermSearchURL)
+		cookies = c.Jar.Cookies(authURL)
+	}
+
+	c.Jar.SetCookies(u, cookies)
+
+	resp, err := c.Get(URL)
+	if err != nil {
+		return "", err
+	}
 	defer resp.Body.Close()
 
+	response, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// Shouldn't be empty :o
-	fmt.Println(string(body))
-	fmt.Println(cookieJar.Cookies(u))
-	fmt.Println(client.Jar)
+	return string(response), err
 }
