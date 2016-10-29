@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"net/http/cookiejar"
-	"net/url"
 )
 
 const (
@@ -52,23 +51,6 @@ func main() {
 }
 
 func doGet(c *http.Client, URL string) (string, error) {
-	u, err := url.Parse(URL)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	cookies := c.Jar.Cookies(u)
-
-	fmt.Println(cookies)
-	if len(cookies) == 0 {
-		fmt.Println("No cookies set.")
-		authURL, _ := url.Parse(baseTermSearchURL)
-		cookies = c.Jar.Cookies(authURL)
-	}
-
-	c.Jar.SetCookies(u, cookies)
-
 	resp, err := c.Get(URL)
 	if err != nil {
 		return "", err
