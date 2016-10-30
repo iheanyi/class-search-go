@@ -17,8 +17,8 @@ const (
 
 // Struct for each term
 type Term struct {
-	Code        string
-	Description string
+	Code        string `json:"code"`
+	Description string `json:"description"`
 }
 
 // Struct for the Course Return
@@ -26,9 +26,9 @@ type Course struct {
 }
 
 type Response struct {
-	Success    bool
-	TotalCount int
-	data       []map[string]interface{}
+	Success    bool                     `json:"success"`
+	TotalCount int                      `json:"totalCount"`
+	Data       []map[string]interface{} `json:"data"`
 }
 
 // FetchTerms fetches an API response of all of the most recent terms for the
@@ -121,7 +121,7 @@ func FetchTermDepartmentCourses(t *Term, d *Department) (string, error) {
 	}
 
 	fmt.Println(response)
-	fmt.Println(response.data)
+	fmt.Println(response.Data)
 
 	return "", err
 }

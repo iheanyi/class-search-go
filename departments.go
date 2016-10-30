@@ -11,8 +11,8 @@ const (
 )
 
 type Department struct {
-	Code        string
-	Description string
+	Code string `json:"code"`
+	Name string `json:"description"`
 }
 
 func fetchDepartments() ([]Department, error) {
