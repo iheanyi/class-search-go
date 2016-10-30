@@ -17,14 +17,9 @@ const (
 func main() {
 	fmt.Println("Starting Program!")
 
-	cookieJar, err := cookiejar.New(nil)
-
+	client, err := setupClient()
 	if err != nil {
 		log.Fatal(err)
-	}
-
-	client := &http.Client{
-		Jar: cookieJar,
 	}
 
 	authenticateClient(client, "201620")
