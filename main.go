@@ -6,11 +6,11 @@ import (
 	"log"
 	"net/http"
 	"net/http/cookiejar"
+	"strings"
 )
 
 const (
-	baseTermSearchURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/term/search?mode=search&term=201620"
-	classSearchURL    = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/classSearch/classSearch"
+	baseTermSearchURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/term/search?mode=search&term="
 	sampleURL         = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/searchResults/searchResults?txt_subject=ACCT&txt_term=201620&startDatepicker=&endDatepicker=&pageOffset=0&pageMaxSize=10&sortColumn=subjectDescription&sortDirection=asc"
 )
 
@@ -27,12 +27,9 @@ func main() {
 		Jar: cookieJar,
 	}
 
-	r, err := doGet(client, baseTermSearchURL)
-	if err != nil {
-		log.Fatal(err)
-	}
+	authenticateClient(client, "201620")
 
-	r, err = doGet(client, sampleURL)
+	r, err := doGet(client, sampleURL)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -61,6 +58,17 @@ func setupClient() (*http.Client, error) {
 	}
 
 	return client, err
+}
+
+func authenticateClient(c *http.Client, term string) {
+	s := []string{baseTermSearchURL, term}
+	authURL := strings.Join(s, "")
+	fmt.Println(authURL)
+
+	_, err := doGet(c, authURL)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func doGet(c *http.Client, URL string) (string, error) {
