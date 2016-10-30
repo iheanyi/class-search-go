@@ -1,14 +1,17 @@
 package main
 
 import (
-	_ "encoding/json"
+	"encoding/json"
 	"fmt"
+	"log"
+	"strings"
 )
 
 const (
 	termSearchURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/classSearch/getTerms?searchTerm=&offset=1&max=10"
 )
 
+// Each term per semester
 type Term struct {
 	Code        string
 	Description string
@@ -16,21 +19,26 @@ type Term struct {
 
 // FetchTerms fetches an API response of all of the most recent terms for the
 // Notre Dame Class Search API.
-func fetchTerms(target interface{}) (string, error) {
+func fetchTerms() ([]Term, error) {
 	fmt.Println("Starting to fetch terms!")
 
 	client, err := setupClient()
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	r, err := doGet(client, termSearchURL)
+
+	terms := make([]Term, 0)
+	err = json.NewDecoder(strings.NewReader(r)).Decode(&terms)
+
 	if err != nil {
-		return "", err
+		fmt.Println("Something went wrong!")
+		log.Fatal(err)
+		return nil, err
 	}
 
 	fmt.Println("Done fetching terms!")
-	//return json.NewDecoder(r.Body).Decode(target), err
-	return r, err
+	return terms, err
 }

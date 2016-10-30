@@ -38,6 +38,13 @@ func main() {
 	}
 
 	fmt.Println(r)
+
+	terms, err := fetchTerms()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(terms)
 	fmt.Println("Done")
 }
 
