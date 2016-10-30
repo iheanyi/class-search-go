@@ -37,3 +37,21 @@ func fetchDepartments() ([]Department, error) {
 
 	return departments, err
 }
+
+func FetchTermDepartments(t *Term) ([]Department, error) {
+	fullTermDepartmentURL := termDepartmentURL + t.Code
+
+	client, err := setupClient()
+
+	departments := make([]Department, 0)
+	r, err := doGet(client, fullTermDepartmentURL)
+	err = json.NewDecoder(strings.NewReader(r)).Decode(&departments)
+
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println("Done Fetching departments for term: ", t.Code)
+
+	return departments, err
+}
