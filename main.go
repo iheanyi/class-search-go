@@ -30,14 +30,14 @@ func main() {
 
 	fmt.Println(r)
 
-	terms, err := fetchTerms()
+	terms, err := FetchTerms()
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Println(terms)
 
-	_, err = fetchTermCourses(&terms[0])
+	_, err = FetchTermCourses(&terms[0])
 
 	if err != nil {
 		log.Fatal(err)

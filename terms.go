@@ -33,8 +33,8 @@ type Response struct {
 
 // FetchTerms fetches an API response of all of the most recent terms for the
 // Notre Dame Class Search API.
-func fetchTerms() ([]Term, error) {
-	fmt.Println("Starting to fetch terms!")
+func FetchTerms() ([]Term, error) {
+	fmt.Println("Starting to Fetch terms!")
 
 	client, err := setupClient()
 
@@ -53,12 +53,12 @@ func fetchTerms() ([]Term, error) {
 		return nil, err
 	}
 
-	fmt.Println("Done fetching terms!")
+	fmt.Println("Done Fetching terms!")
 	return terms, err
 }
 
-func fetchAllTermCourses() (string, error) {
-	terms, err := fetchTerms()
+func FetchAllTermCourses() (string, error) {
+	terms, err := FetchTerms()
 
 	if err != nil {
 		return "", err
@@ -71,7 +71,7 @@ func fetchAllTermCourses() (string, error) {
 	return "", err
 }
 
-func fetchTermDepartments(t *Term) ([]Department, error) {
+func FetchTermDepartments(t *Term) ([]Department, error) {
 	fullTermDepartmentURL := termDepartmentURL + t.Code
 
 	client, err := setupClient()
@@ -84,13 +84,13 @@ func fetchTermDepartments(t *Term) ([]Department, error) {
 		return nil, err
 	}
 
-	fmt.Println("Done fetching departments for term: ", t.Code)
+	fmt.Println("Done Fetching departments for term: ", t.Code)
 
 	return departments, err
 }
 
 // Fetch the courses for a subject in a specifc term.
-func fetchTermDepartmentCourses(t *Term, d *Department) (string, error) {
+func FetchTermDepartmentCourses(t *Term, d *Department) (string, error) {
 	client, err := setupClient()
 	if err != nil {
 		return "", err
@@ -127,7 +127,7 @@ func fetchTermDepartmentCourses(t *Term, d *Department) (string, error) {
 }
 
 // Fetch all the courses for a term through the departments.
-func fetchTermCourses(t *Term) (string, error) {
+func FetchTermCourses(t *Term) (string, error) {
 	client, err := setupClient()
 
 	if err != nil {
@@ -137,11 +137,11 @@ func fetchTermCourses(t *Term) (string, error) {
 	// Authenticate client that we're using.
 	authenticateClient(client, t.Code)
 
-	// We need to fetch all of the departments first.
-	departments, err := fetchTermDepartments(t)
+	// We need to Fetch all of the departments first.
+	departments, err := FetchTermDepartments(t)
 	fmt.Println(departments[0].Code)
 
-	fetchTermDepartmentCourses(t, &departments[0])
+	FetchTermDepartmentCourses(t, &departments[0])
 	if err != nil {
 		return "", err
 	}
