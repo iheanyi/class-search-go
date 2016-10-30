@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"net/http/cookiejar"
-	"strings"
 )
 
 const (
@@ -37,6 +36,13 @@ func main() {
 	}
 
 	fmt.Println(terms)
+
+	_, err = fetchTermCourses(&terms[0])
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Println("Done")
 }
 
@@ -56,8 +62,7 @@ func setupClient() (*http.Client, error) {
 }
 
 func authenticateClient(c *http.Client, term string) {
-	s := []string{baseTermSearchURL, term}
-	authURL := strings.Join(s, "")
+	authURL := baseTermSearchURL + term
 	fmt.Println(authURL)
 
 	_, err := doGet(c, authURL)
