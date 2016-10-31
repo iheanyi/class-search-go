@@ -8,6 +8,18 @@ import (
 )
 
 type Course struct {
+	Id                       int    `json:"id"`
+	Term                     string `json:"term"`
+	CourseRegistrationNumber string `json:"courseReferenceNumber"`
+	Subject                  string `json:"subject"`
+	SectionNumber            string `json:"sequenceNumber"`
+	Title                    string `json:"courseTitle"`
+	IsOpen                   bool   `json:"openSection"`
+	CrossList                string `json:"crossList"`
+	CrossListCapacity        int    `json:"crossListCapacity"`
+	CrossListAvailable       int    `json:"crossListAvailable"`
+	CreditHourHigh           int    `json:"creditHourHigh"`
+	CreditHourLow            int    `json:"creditHourLow"`
 }
 
 func FetchTermDepartmentCourses(t *Term, d *Department) (string, error) {
@@ -40,7 +52,18 @@ func FetchTermDepartmentCourses(t *Term, d *Department) (string, error) {
 		log.Fatal("This request was unsuccessful!")
 	}
 
+	courses := make([]Course, 0)
+	courses_attr, err := json.Marshal(response.Data)
+
+	if err != nil {
+		return "", err
+	}
+
+	err = json.NewDecoder(strings.NewReader(string(courses_attr))).Decode(&courses)
+
 	fmt.Println(response.Data[0])
+	fmt.Println(courses)
+	fmt.Println(len(courses))
 
 	return "", err
 }

@@ -39,6 +39,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	/* Comment out professors for now because the API request takes FOREVER.
 	professors, err := FetchInstructors(&terms[0])
 
 	if err != nil {
@@ -46,6 +47,7 @@ func main() {
 	}
 
 	fmt.Println(professors)
+	*/
 
 	fmt.Println("Done")
 }
