@@ -40,8 +40,7 @@ func FetchTermDepartmentCourses(t *Term, d *Department) (string, error) {
 		log.Fatal("This request was unsuccessful!")
 	}
 
-	fmt.Println(response)
-	fmt.Println(response.Data)
+	fmt.Println(response.Data[0])
 
 	return "", err
 }
