@@ -39,5 +39,13 @@ func main() {
 		log.Fatal(err)
 	}
 
+	professors, err := FetchInstructors(&terms[0])
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(professors)
+
 	fmt.Println("Done")
 }
