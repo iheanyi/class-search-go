@@ -44,7 +44,7 @@ func main() {
 	}
 	ts := &TermsService{client: c}
 
-	terms, _, err := ts.List()
+	terms, _, err = ts.List()
 	if err != nil {
 		log.Print("Something went wrong fetching terms.")
 		log.Fatal(err)
