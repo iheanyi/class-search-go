@@ -75,8 +75,8 @@ func FetchAllTermCourses() (string, error) {
 		return "", err
 	}
 
-	for i := range terms {
-		log.Print(terms[i].Code)
+	for _, term := range terms {
+		log.Print(term.Code)
 	}
 
 	return "", err
