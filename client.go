@@ -68,6 +68,7 @@ func (c *Client) NewRequest(method, urlStr string, body interface{}) (*http.Requ
 }
 
 func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
+	log.Printf("url=%q", req.URL)
 	resp, err := c.client.Do(req)
 	if err != nil {
 		return nil, err
@@ -86,7 +87,10 @@ func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 				return nil, err
 			}
 		} else {
-			err := json.NewDecoder(resp.Body).Decode(v)
+			buf := bytes.NewBuffer(nil)
+			io.Copy(buf, resp.Body)
+			log.Print(buf.String())
+			err := json.NewDecoder(buf).Decode(v)
 			if err != nil {
 				return nil, err
 			}

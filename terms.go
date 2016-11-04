@@ -16,7 +16,7 @@ const (
 
 // Struct for each term
 type Term struct {
-	Code        string `json:"code"`
+	Code        string `json:"code,number"`
 	Description string `json:"description"`
 }
 
