@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -114,7 +113,7 @@ func setupClient() (*http.Client, error) {
 
 func authenticateClient(c *http.Client, term string) {
 	authURL := baseAuthTermURL + term
-	fmt.Println(authURL)
+	log.Print(authURL)
 
 	_, err := doGet(c, authURL)
 	if err != nil {

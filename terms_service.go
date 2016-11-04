@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -29,6 +30,7 @@ func (ts *TermsService) List() ([]Term, *http.Response, error) {
 	var terms []Term
 	res, err := ts.client.Do(req, terms)
 
+	log.Print(res)
 	if err != nil {
 		return nil, nil, err
 	}

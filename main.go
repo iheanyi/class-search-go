@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -10,7 +9,7 @@ const (
 )
 
 func main() {
-	fmt.Println("Starting Program!")
+	log.Print("Starting Program!")
 
 	client, err := setupClient()
 	if err != nil {
@@ -24,14 +23,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(r)
+	log.Print(r)
 
 	terms, err := FetchTerms()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(terms)
+	log.Print(terms)
 
 	_, err = FetchTermCourses(&terms[0])
 
@@ -39,5 +38,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Done")
+	c, err := NewClient(nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+	ts := &TermsService{client: c}
+	log.Print(ts.List())
+	log.Print("Done")
 }
