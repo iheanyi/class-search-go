@@ -28,10 +28,10 @@ func (ts *TermsService) List() ([]Term, *http.Response, error) {
 	req.URL.RawQuery = q.Encode()
 
 	var terms []Term
-	res, err := ts.client.Do(req, terms)
+	res, err := ts.client.Do(req, &terms)
 
-	log.Print(res)
 	if err != nil {
+		log.Print("Something went wrong!")
 		return nil, nil, err
 	}
 	return terms, res, nil

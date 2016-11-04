@@ -43,6 +43,13 @@ func main() {
 		log.Fatal(err)
 	}
 	ts := &TermsService{client: c}
-	log.Print(ts.List())
+
+	terms, res, err := ts.List()
+	if err != nil {
+		log.Print("Something went wrong fetching terms.")
+		log.Fatal(err)
+	}
+	log.Print(terms)
+
 	log.Print("Done")
 }
