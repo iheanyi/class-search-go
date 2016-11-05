@@ -13,6 +13,7 @@ import (
 
 const (
 	defaultBaseURL  = "https://ssb.cc.nd.edu/"
+	baseAuthPath    = "StudentRegistrationSsb/ssb/term/search"
 	baseAuthTermURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/term/search?mode=search&term="
 )
 
@@ -20,7 +21,8 @@ type Client struct {
 	client  *http.Client
 	BaseURL *url.URL
 
-	Terms *TermsService
+	Terms       *TermsService
+	Departments *DepartmentsService
 }
 
 func NewClient(httpClient *http.Client) (*Client, error) {
