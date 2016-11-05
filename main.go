@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -10,7 +9,7 @@ const (
 )
 
 func main() {
-	fmt.Println("Starting Program!")
+	log.Print("Starting Program!")
 
 	client, err := setupClient()
 	if err != nil {
@@ -24,14 +23,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(r)
+	log.Print(r)
 
 	terms, err := FetchTerms()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(terms)
+	log.Print(terms)
 
 	_, err = FetchTermCourses(&terms[0])
 
@@ -39,15 +38,18 @@ func main() {
 		log.Fatal(err)
 	}
 
-	/* Comment out professors for now because the API request takes FOREVER.
-	professors, err := FetchInstructors(&terms[0])
-
+	c, err := NewClient(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
+	ts := &TermsService{client: c}
 
-	fmt.Println(professors)
-	*/
+	terms, _, err = ts.List()
+	if err != nil {
+		log.Print("Something went wrong fetching terms.")
+		log.Fatal(err)
+	}
+	log.Print(terms)
 
-	fmt.Println("Done")
+	log.Print("Done")
 }

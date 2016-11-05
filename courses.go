@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"strings"
 )
@@ -31,7 +30,7 @@ func FetchTermDepartmentCourses(t *Term, d *Department) (string, error) {
 	fullSearchURL := termDepartmentPart + d.Code + termStart + t.Code + searchURLEnd
 
 	authenticateClient(client, t.Code)
-	fmt.Println(fullSearchURL)
+	log.Print(fullSearchURL)
 	r, err := doGet(client, fullSearchURL)
 
 	if err != nil {
@@ -40,7 +39,7 @@ func FetchTermDepartmentCourses(t *Term, d *Department) (string, error) {
 
 	response := Response{}
 
-	fmt.Println(response)
+	log.Print(response)
 
 	// Marshal the response into it's relevant JSON.
 	err = json.NewDecoder(strings.NewReader(r)).Decode(&response)
@@ -60,11 +59,6 @@ func FetchTermDepartmentCourses(t *Term, d *Department) (string, error) {
 	}
 
 	err = json.NewDecoder(strings.NewReader(string(courses_attr))).Decode(&courses)
-
-	fmt.Println(response.Data[0])
-	fmt.Println(courses)
-	fmt.Println(len(courses))
-
 	return "", err
 }
 
@@ -81,7 +75,7 @@ func FetchTermCourses(t *Term) (string, error) {
 
 	// We need to Fetch all of the departments first.
 	departments, err := FetchTermDepartments(t)
-	fmt.Println(departments[0].Code)
+	log.Print(departments[0].Code)
 
 	FetchTermDepartmentCourses(t, &departments[0])
 	if err != nil {
@@ -98,8 +92,8 @@ func FetchAllTermCourses() (string, error) {
 		return "", err
 	}
 
-	for i := range terms {
-		fmt.Println(terms[i].Code)
+	for _, term := range terms {
+		log.Print(term.Code)
 	}
 
 	return "", err
