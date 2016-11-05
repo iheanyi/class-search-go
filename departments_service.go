@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	departmentsBasePath = "StudentRegistrationSsb/ssb/classSearch/get_subject"
+	departmentsBasePath = "StudentRegistrationSsb/ssb/classSearch/get_department"
 )
 
 type DepartmentsService struct {

@@ -23,7 +23,7 @@ func TestDepartmentsService_ListDepartments(t *testing.T) {
 	`
 
 	client, teardown := setup(func(mux *http.ServeMux) {
-		mux.HandleFunc("/StudentRegistrationSsb/ssb/classSearch/get_subject",
+		mux.HandleFunc("/StudentRegistrationSsb/ssb/classSearch/get_department",
 			func(w http.ResponseWriter, r *http.Request) {
 				testMethod(t, r, "GET")
 				fmt.Fprintf(w, departmentsBlob)
