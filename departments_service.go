@@ -25,6 +25,7 @@ func (ds *DepartmentsService) List(t *Term) ([]Department, *http.Response, error
 	q.Set("term", t.Code)
 	q.Set("offset", "1")
 	q.Set("max", "200")
+	req.URL.RawQuery = q.Encode()
 	var departments []Department
 	res, err := ds.client.Do(req, &departments)
 
