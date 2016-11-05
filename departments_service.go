@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 )
 
@@ -29,7 +28,6 @@ func (ds *DepartmentsService) List(t *Term) ([]Department, *http.Response, error
 	var departments []Department
 	res, err := ds.client.Do(req, &departments)
 
-	log.Print(res.Body)
 	if err != nil {
 		return nil, nil, err
 	}
