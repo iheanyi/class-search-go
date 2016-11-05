@@ -25,31 +25,25 @@ func main() {
 
 	log.Print(r)
 
-	terms, err := FetchTerms()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Print(terms)
-
-	_, err = FetchTermCourses(&terms[0])
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	c, err := NewClient(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	ts := &TermsService{client: c}
 
-	terms, _, err = ts.List()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	terms, _, err := ts.List()
+
 	if err != nil {
 		log.Print("Something went wrong fetching terms.")
 		log.Fatal(err)
 	}
 	log.Print(terms)
 
+	_, err = FetchTermCourses(&terms[0])
 	log.Print("Done")
 }
