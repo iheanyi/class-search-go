@@ -47,10 +47,18 @@ func main() {
 	ds := &DepartmentsService{client: c}
 	departments, _, err := ds.List(&terms[0])
 	if err != nil {
-		log.Print("Smoething went wrong fetching departments.")
+		log.Print("Something went wrong fetching departments.")
 		log.Fatal(err)
 	}
 	log.Print(departments)
+
+	ss := &SubjectsService{client: c}
+	subjects, _, err := ss.List(&terms[0])
+	if err != nil {
+		log.Print("Something went wrong fetching subjects!")
+		log.Fatal(err)
+	}
+	log.Print(subjects)
 
 	//_, err = FetchTermCourses(&terms[0])
 	log.Print("Done")
