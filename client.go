@@ -21,9 +21,11 @@ type Client struct {
 	client  *http.Client
 	BaseURL *url.URL
 
-	Terms       *TermsService
-	Departments *DepartmentsService
-	Subjects    *SubjectsService
+	Terms                 *TermsService
+	Departments           *DepartmentsService
+	TermDepartmentCourses *TermDepartmentCoursesService
+	Courses               *CoursesService
+	Subjects              *SubjectsService
 }
 
 func NewClient(httpClient *http.Client) (*Client, error) {
