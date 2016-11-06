@@ -23,6 +23,7 @@ type Client struct {
 
 	Terms       *TermsService
 	Departments *DepartmentsService
+	Subjects    *SubjectsService
 }
 
 func NewClient(httpClient *http.Client) (*Client, error) {
@@ -42,6 +43,7 @@ func NewClient(httpClient *http.Client) (*Client, error) {
 	c := &Client{client: httpClient, BaseURL: baseURL}
 	c.Terms = &TermsService{client: c}
 	c.Departments = &DepartmentsService{client: c}
+	c.Subjects = &SubjectsService{client: c}
 	return c, nil
 }
 
