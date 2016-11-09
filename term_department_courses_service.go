@@ -22,6 +22,13 @@ func (ts *TermDepartmentCoursesService) List(term, dept string) ([]Course, *http
 		return nil, nil, err
 	}
 
+	// With this request, every single request has to hit the re-authentication
+	// endpoint because each department call is otherwise cached by the cookie. :/
+	_, err = ts.client.AuthenticateClient(term)
+	if err != nil {
+		return nil, nil, err
+	}
+
 	q := req.URL.Query()
 	q.Set("txt_subject", dept)
 	q.Set("txt_term", term)

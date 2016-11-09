@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func _TestTermDepartmentCoursesService_ListTermDepartmentCourses(t *testing.T) {
+func TestTermDepartmentCoursesService_ListTermDepartmentCourses(t *testing.T) {
 	coursesBlob := `
 	{
 		"success": true,
@@ -196,7 +196,9 @@ func _TestTermDepartmentCoursesService_ListTermDepartmentCourses(t *testing.T) {
 
 	defer teardown()
 
-	courses, _, err := client.TermDepartmentCourses.List("201620", "ACCT")
+	var term string = "201620"
+	var dept string = "ACCT"
+	courses, _, err := client.TermDepartmentCourses.List(term, dept)
 	if err != nil {
 		t.Errorf("TermDepartmentCourses.List returned error: %v", err)
 	}

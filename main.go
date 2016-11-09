@@ -11,69 +11,40 @@ const (
 func main() {
 	log.Print("Starting Program!")
 
-	client, err := setupClient()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	authenticateClient(client, "201620")
-
-	r, err := doGet(client, sampleURL)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Print(r)
-
 	c, err := NewClient(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	ts := &TermsService{client: c}
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	terms, _, err := ts.List()
-
+	terms, _, err := c.Terms.List()
 	if err != nil {
 		log.Print("Something went wrong fetching terms.")
 		log.Fatal(err)
 	}
 	log.Print(terms)
 
-	ds := &DepartmentsService{client: c}
-	departments, _, err := ds.List(&terms[0])
+	departments, _, err := c.Departments.List(&terms[0])
 	if err != nil {
 		log.Print("Something went wrong fetching departments.")
 		log.Fatal(err)
 	}
 	log.Print(departments)
 
-	ss := &SubjectsService{client: c}
-	subjects, _, err := ss.List(&terms[0])
+	subjects, _, err := c.Subjects.List(&terms[0])
 	if err != nil {
 		log.Print("Something went wrong fetching subjects!")
 		log.Fatal(err)
 	}
 	log.Print(subjects)
 
-	cs := &TermDepartmentCoursesService{client: c}
-	_, err = ts.client.AuthenticateClient(terms[0].Code)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	courses, _, err := cs.List(terms[0].Code, departments[0].Code)
+	courses, _, err := c.TermDepartmentCourses.List(terms[0].Code, departments[0].Code)
 	if err != nil {
 		log.Print("Something went wrong fetching courses.")
 		log.Fatal(err)
 	}
 	log.Print(courses)
 
-	courses, _, err = cs.List(terms[0].Code, departments[1].Code)
+	courses, _, err = c.TermDepartmentCourses.List(terms[0].Code, departments[1].Code)
 	if err != nil {
 		log.Print("Something went wrong fetching courses.")
 		log.Fatal(err)

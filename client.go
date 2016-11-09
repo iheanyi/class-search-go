@@ -44,6 +44,7 @@ func NewClient(httpClient *http.Client) (*Client, error) {
 
 	c := &Client{client: httpClient, BaseURL: baseURL}
 	c.Terms = &TermsService{client: c}
+	c.TermDepartmentCourses = &TermDepartmentCoursesService{client: c}
 	c.Departments = &DepartmentsService{client: c}
 	c.Subjects = &SubjectsService{client: c}
 	return c, nil
