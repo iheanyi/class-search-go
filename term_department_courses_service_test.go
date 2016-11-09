@@ -95,99 +95,17 @@ func TestTermDepartmentCoursesService_ListTermDepartmentCourses(t *testing.T) {
 				"term": "201620"
 			}
 			]
-		},
-		{
-			"id": 295145,
-			"term": "201620",
-			"termDesc": "Spring Semester 2017",
-			"courseReferenceNumber": "21389",
-			"partOfTerm": "1",
-			"courseNumber": "20100",
-			"subject": "ACCT",
-			"subjectDescription": "Accountancy",
-			"sequenceNumber": "02",
-			"campusDescription": "Main",
-			"scheduleTypeDescription": "Class",
-			"courseTitle": "Accountancy I",
-			"creditHours": null,
-			"maximumEnrollment": 12,
-			"enrollment": 4,
-			"seatsAvailable": 8,
-			"waitCapacity": 0,
-			"waitCount": 0,
-			"waitAvailable": 0,
-			"crossList": "AB",
-			"crossListCapacity": 45,
-			"crossListCount": 4,
-			"crossListAvailable": 41,
-			"creditHourHigh": null,
-			"creditHourLow": 3,
-			"creditHourIndicator": null,
-			"openSection": true,
-			"linkIdentifier": null,
-			"isSectionLinked": false,
-			"subjectCourse": "ACCT20100",
-			"faculty": 
-			[
-			{
-				"bannerId": "901610394",
-				"category": null,
-				"class": "net.hedtech.banner.student.faculty.FacultyResultDecorator",
-				"courseReferenceNumber": "21389",
-				"displayName": "Larocque, Stephannie",
-				"emailAddress": "larocque.1@nd.edu",
-				"primaryIndicator": true,
-				"term": "201620"
-			}
-			],
-			"meetingsFaculty": 
-			[
-			{
-				"category": "01",
-				"class": "net.hedtech.banner.student.schedule.SectionSessionDecorator",
-				"courseReferenceNumber": "21389",
-				"faculty": 
-				[
-				],
-				"meetingTime": {
-					"beginTime": "1230",
-					"building": "1144",
-					"buildingDescription": "DeBartolo Hall",
-					"campus": "M",
-					"campusDescription": "Main",
-					"category": "01",
-					"class": "net.hedtech.banner.general.overall.MeetingTimeDecorator",
-					"courseReferenceNumber": "21389",
-					"creditHourSession": 3.0,
-					"endDate": "05/03/2017",
-					"endTime": "1345",
-					"friday": false,
-					"hoursWeek": 2.5,
-					"meetingScheduleType": "CL",
-					"monday": false,
-					"room": "216",
-					"saturday": false,
-					"startDate": "01/17/2017",
-					"sunday": false,
-					"term": "201620",
-					"thursday": true,
-					"tuesday": true,
-					"wednesday": false
-				},
-				"term": "201620"
-			}
-			]
 		}
 		],
 		"pageOffset": 0,
-		"pageMaxSize": 2,
+		"pageMaxSize": 1,
 		"sectionsFetchedCount": 65,
 		"pathMode": "search",
 		"searchResultsConfigs": null
 	}
 	`
 	client, teardown := setup(func(mux *http.ServeMux) {
-		mux.HandleFunc("StudentRegistrationSsb/ssb/searchResults/searchResults",
+		mux.HandleFunc("/StudentRegistrationSsb/ssb/searchResults/searchResults",
 			func(w http.ResponseWriter, r *http.Request) {
 				testMethod(t, r, "GET")
 				fmt.Fprintf(w, coursesBlob)
@@ -203,7 +121,22 @@ func TestTermDepartmentCoursesService_ListTermDepartmentCourses(t *testing.T) {
 		t.Errorf("TermDepartmentCourses.List returned error: %v", err)
 	}
 
-	expected := []Course{}
+	expected := []Course{
+		{
+			Id:                       295732,
+			Term:                     "201620",
+			Subject:                  "ACCT",
+			CourseRegistrationNumber: "21976",
+			SectionNumber:            "01",
+			Title:                    "Accountancy I",
+			IsOpen:                   true,
+			CrossList:                "66",
+			CrossListCapacity:        45,
+			CrossListAvailable:       41,
+			CreditHourHigh:           0,
+			CreditHourLow:            3,
+		},
+	}
 
 	if !reflect.DeepEqual(courses, expected) {
 		t.Errorf("TermDepartmentCourses.List returned %+v, expected %+v", courses, expected)
