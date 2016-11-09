@@ -61,12 +61,25 @@ func main() {
 	log.Print(subjects)
 
 	cs := &TermDepartmentCoursesService{client: c}
+	_, err = ts.client.AuthenticateClient(terms[0].Code)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	courses, _, err := cs.List(terms[0].Code, departments[0].Code)
 	if err != nil {
 		log.Print("Something went wrong fetching courses.")
 		log.Fatal(err)
 	}
 	log.Print(courses)
+
+	courses, _, err = cs.List(terms[0].Code, departments[1].Code)
+	if err != nil {
+		log.Print("Something went wrong fetching courses.")
+		log.Fatal(err)
+	}
+	log.Print(courses)
+
 	//_, err = FetchTermCourses(&terms[0])
 	log.Print("Done")
 }

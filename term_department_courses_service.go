@@ -28,11 +28,6 @@ func (ts *TermDepartmentCoursesService) List(term, dept string) ([]Course, *http
 	q.Set("pageMaxSize", "500")
 	req.URL.RawQuery = q.Encode()
 
-	_, err = ts.client.AuthenticateClient(term)
-	if err != nil {
-		return nil, nil, err
-	}
-
 	var response Response
 	res, err := ts.client.Do(req, &response)
 	if err != nil {
