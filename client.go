@@ -17,6 +17,12 @@ const (
 	baseAuthTermURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/term/search?mode=search&term="
 )
 
+type Response struct {
+	Success    bool                     `json:"success"`
+	TotalCount int                      `json:"totalCount"`
+	Data       []map[string]interface{} `json:"data"`
+}
+
 type Client struct {
 	client  *http.Client
 	BaseURL *url.URL

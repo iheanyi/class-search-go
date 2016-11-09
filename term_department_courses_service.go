@@ -50,6 +50,9 @@ func (ts *TermDepartmentCoursesService) List(term, dept string) ([]Course, *http
 
 	buf := bytes.NewBuffer(coursesJson)
 	err = json.NewDecoder(buf).Decode(&courses)
+	if err != nil {
+		return nil, nil, err
+	}
 
 	return courses, res, nil
 }

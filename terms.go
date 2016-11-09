@@ -20,12 +20,6 @@ type Term struct {
 	Description string `json:"description"`
 }
 
-type Response struct {
-	Success    bool                     `json:"success"`
-	TotalCount int                      `json:"totalCount"`
-	Data       []map[string]interface{} `json:"data"`
-}
-
 // FetchTerms fetches an API response of all of the most recent terms for the
 // Notre Dame Class Search API.
 func FetchTerms() ([]Term, error) {
