@@ -51,7 +51,7 @@ func NewClient(httpClient *http.Client) (*Client, error) {
 
 // In order to authenticate a client, you have to authenticate it with a term.
 // What this ends up doing is adding a JSESSIONID to the cookie jar.
-func (c *Client) AuthenticateClient(t *Term) (*http.Response, error) {
+func (c *Client) AuthenticateClient(term string) (*http.Response, error) {
 	path := baseAuthPath
 
 	req, err := c.NewRequest("GET", path, nil)
@@ -61,7 +61,7 @@ func (c *Client) AuthenticateClient(t *Term) (*http.Response, error) {
 
 	q := req.URL.Query()
 	q.Set("mode", "search")
-	q.Set("term", t.Code)
+	q.Set("term", term)
 	req.URL.RawQuery = q.Encode()
 
 	res, err := c.Do(req, nil)
