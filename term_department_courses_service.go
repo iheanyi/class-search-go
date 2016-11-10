@@ -24,9 +24,9 @@ func (ts *TermDepartmentCoursesService) List(term, dept string) ([]Course, *http
 
 	// With this request, every single request has to hit the re-authentication
 	// endpoint because each department call is otherwise cached by the cookie. :/
-	_, err = ts.client.AuthenticateClient(term)
+	res, err := ts.client.AuthenticateClient(term)
 	if err != nil {
-		return nil, nil, err
+		return nil, res, err
 	}
 
 	q := req.URL.Query()
@@ -36,9 +36,9 @@ func (ts *TermDepartmentCoursesService) List(term, dept string) ([]Course, *http
 	req.URL.RawQuery = q.Encode()
 
 	var response Response
-	res, err := ts.client.Do(req, &response)
+	res, err = ts.client.Do(req, &response)
 	if err != nil {
-		return nil, nil, err
+		return nil, res, err
 	}
 
 	// Decode Response.Data into a courses array
