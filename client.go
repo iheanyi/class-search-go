@@ -138,7 +138,6 @@ func setupClient() (*http.Client, error) {
 	cookieJar, err := cookiejar.New(nil)
 
 	if err != nil {
-		log.Fatal(err)
 		return nil, err
 	}
 
