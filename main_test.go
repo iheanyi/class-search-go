@@ -98,6 +98,15 @@ func TestAuthenticateClientIntegration(t *testing.T) {
 	testAuthenticateClient(t, client)
 }
 
+func testClientDefaults(t *testing.T, c *Client) {
+	testClientDefaultBaseURL(t, c)
+}
+
+func TestNewClient(t *testing.T) {
+	c, _ := NewClient(nil)
+	testClientDefaults(t, c)
+}
+
 func testAuthenticateClient(t *testing.T, client *Client) {
 	res, err := client.AuthenticateClient("201620")
 	if err != nil {
