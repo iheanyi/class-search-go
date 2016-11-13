@@ -8,6 +8,11 @@ const (
 	termsBasePath = "StudentRegistrationSsb/ssb/classSearch/getTerms"
 )
 
+type Term struct {
+	Code        string `json:"code,number"`
+	Description string `json:"description"`
+}
+
 type TermsService struct {
 	client *Client
 }
@@ -28,9 +33,9 @@ func (ts *TermsService) List() ([]Term, *http.Response, error) {
 
 	var terms []Term
 	res, err := ts.client.Do(req, &terms)
-
 	if err != nil {
 		return nil, nil, err
 	}
+
 	return terms, res, nil
 }

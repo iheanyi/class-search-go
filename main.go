@@ -54,6 +54,5 @@ func main() {
 	}
 	log.Print(instructors)
 
-	//_, err = FetchTermCourses(&terms[0])
 	log.Print("Done")
 }
