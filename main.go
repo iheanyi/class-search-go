@@ -33,14 +33,14 @@ func main() {
 	}
 	log.Print(subjects)
 
-	courses, _, err := c.TermDepartmentCourses.List(terms[0].Code, departments[0].Code)
+	courses, _, err := c.TermDepartmentCourses.List(terms[0].Code, subjects[0].Code)
 	if err != nil {
 		log.Print("Something went wrong fetching courses.")
 		log.Fatal(err)
 	}
 	log.Print(courses)
 
-	courses, _, err = c.TermDepartmentCourses.List(terms[0].Code, departments[1].Code)
+	courses, _, err = c.TermDepartmentCourses.List(terms[0].Code, subjects[1].Code)
 	if err != nil {
 		log.Print("Something went wrong fetching courses.")
 		log.Fatal(err)
