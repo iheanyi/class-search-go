@@ -1,87 +1,58 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
-	"net/http/cookiejar"
-)
-
-const (
-	baseTermSearchURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/term/search?mode=search&term="
-	sampleURL         = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/searchResults/searchResults?txt_subject=ACCT&txt_term=201620&startDatepicker=&endDatepicker=&pageOffset=0&pageMaxSize=10&sortColumn=subjectDescription&sortDirection=asc"
 )
 
 func main() {
-	fmt.Println("Starting Program!")
+	log.Print("Starting Program!")
 
-	client, err := setupClient()
+	c, err := NewClient(nil)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	authenticateClient(client, "201620")
-
-	r, err := doGet(client, sampleURL)
+	terms, _, err := c.Terms.List()
 	if err != nil {
+		log.Print("Something went wrong fetching terms.")
 		log.Fatal(err)
 	}
+	log.Print(terms)
 
-	fmt.Println(r)
-
-	terms, err := FetchTerms()
+	departments, _, err := c.Departments.List(&terms[0])
 	if err != nil {
+		log.Print("Something went wrong fetching departments.")
 		log.Fatal(err)
 	}
+	log.Print(departments)
 
-	fmt.Println(terms)
-
-	_, err = FetchTermCourses(&terms[0])
-
+	subjects, _, err := c.Subjects.List(&terms[0])
 	if err != nil {
+		log.Print("Something went wrong fetching subjects!")
 		log.Fatal(err)
 	}
+	log.Print(subjects)
 
-	fmt.Println("Done")
-}
-
-func setupClient() (*http.Client, error) {
-	cookieJar, err := cookiejar.New(nil)
-
+	courses, _, err := c.TermDepartmentCourses.List(terms[0].Code, departments[0].Code)
 	if err != nil {
-		log.Fatal(err)
-		return nil, err
-	}
-
-	client := &http.Client{
-		Jar: cookieJar,
-	}
-
-	return client, err
-}
-
-func authenticateClient(c *http.Client, term string) {
-	authURL := baseTermSearchURL + term
-	fmt.Println(authURL)
-
-	_, err := doGet(c, authURL)
-	if err != nil {
+		log.Print("Something went wrong fetching courses.")
 		log.Fatal(err)
 	}
-}
+	log.Print(courses)
 
-func doGet(c *http.Client, URL string) (string, error) {
-	resp, err := c.Get(URL)
+	courses, _, err = c.TermDepartmentCourses.List(terms[0].Code, departments[1].Code)
 	if err != nil {
-		return "", err
+		log.Print("Something went wrong fetching courses.")
+		log.Fatal(err)
 	}
-	defer resp.Body.Close()
+	log.Print(courses)
 
-	response, err := ioutil.ReadAll(resp.Body)
+	instructors, _, err := c.Instructors.List(terms[0].Code)
 	if err != nil {
-		return "", err
+		log.Print("Something went wrong fetching instructors.")
+		log.Fatal(err)
 	}
+	log.Print(instructors)
 
-	return string(response), err
+	log.Print("Done")
 }
