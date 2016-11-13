@@ -53,6 +53,7 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Print(instructors)
+	log.Print(courses[0])
 
 	log.Print("Done")
 }

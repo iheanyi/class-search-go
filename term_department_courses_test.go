@@ -121,6 +121,40 @@ func TestTermDepartmentCoursesService_ListTermDepartmentCourses(t *testing.T) {
 		t.Errorf("TermDepartmentCourses.List returned error: %v", err)
 	}
 
+	instructors := []CourseInstructor{
+		{
+			Name:      "Larocque, Stephannie",
+			BannerId:  "901610394",
+			Category:  "",
+			IsPrimary: true,
+		},
+	}
+
+	meeting := Meeting{
+		StartTime:         "1100",
+		EndTime:           "1215",
+		BuildingId:        "1144",
+		BuildingName:      "DeBartolo Hall",
+		CreditHourSession: 3,
+		CampusCode:        "M",
+		RoomNumber:        "216",
+		StartDate:         "01/17/2017",
+		EndDate:           "05/03/2017",
+		Sunday:            false,
+		Monday:            false,
+		Tuesday:           true,
+		Wednesday:         false,
+		Thursday:          true,
+		Friday:            false,
+		Saturday:          false,
+	}
+
+	meetings_faculty := []CourseMeetingFaculty{
+		{
+			Meeting: meeting,
+		},
+	}
+
 	expected := []Course{
 		{
 			Id:                       295732,
@@ -129,12 +163,16 @@ func TestTermDepartmentCoursesService_ListTermDepartmentCourses(t *testing.T) {
 			CourseRegistrationNumber: "21976",
 			SectionNumber:            "01",
 			Title:                    "Accountancy I",
+			CampusName:               "Main",
 			IsOpen:                   true,
 			CrossList:                "66",
 			CrossListCapacity:        45,
 			CrossListAvailable:       41,
 			CreditHourHigh:           0,
 			CreditHourLow:            3,
+			Instructors:              instructors,
+			MeetingsFaculty:          meetings_faculty,
+			SubjectCourse:            "ACCT20100",
 		},
 	}
 

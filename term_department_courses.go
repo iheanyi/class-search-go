@@ -31,6 +31,7 @@ func (ts *TermDepartmentCoursesService) List(term, subject string) ([]Course, *h
 
 	q := req.URL.Query()
 	q.Set("txt_subject", subject)
+	q.Set("txt_campus", "M")
 	q.Set("txt_term", term)
 	q.Set("pageMaxSize", "500")
 	req.URL.RawQuery = q.Encode()
