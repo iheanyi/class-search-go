@@ -30,7 +30,6 @@ type Client struct {
 	Terms                 *TermsService
 	Departments           *DepartmentsService
 	TermDepartmentCourses *TermDepartmentCoursesService
-	Courses               *CoursesService
 	Subjects              *SubjectsService
 	Instructors           *InstructorsService
 }
