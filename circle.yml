@@ -1,3 +1,0 @@
-machine:
-  environment:
-    TEST_INTEGRATION: true
