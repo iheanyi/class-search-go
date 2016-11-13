@@ -4,10 +4,6 @@ import (
 	"log"
 )
 
-const (
-	sampleURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/searchResults/searchResults?txt_subject=ACCT&txt_term=201620&startDatepicker=&endDatepicker=&pageOffset=0&pageMaxSize=10&sortColumn=subjectDescription&sortDirection=asc"
-)
-
 func main() {
 	log.Print("Starting Program!")
 

@@ -4,6 +4,11 @@ import (
 	"net/http"
 )
 
+type Department struct {
+	Code string `json:"code"`
+	Name string `json:"description"`
+}
+
 const (
 	departmentsBasePath = "StudentRegistrationSsb/ssb/classSearch/get_department"
 )

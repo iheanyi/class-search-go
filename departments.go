@@ -10,11 +10,6 @@ const (
 	departmentsURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/classSearch/get_subject?searchTerm=&term=201620&offset=1&max=200"
 )
 
-type Department struct {
-	Code string `json:"code"`
-	Name string `json:"description"`
-}
-
 func fetchDepartments() ([]Department, error) {
 	fmt.Println("Starting to fetch departments")
 
