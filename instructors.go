@@ -6,11 +6,6 @@ import (
 	"strings"
 )
 
-type Instructor struct {
-	BannerId string `json:"code"`
-	Name     string `json:"description"`
-}
-
 const (
 	instructorURL = "https://ssb.cc.nd.edu/StudentRegistrationSsb/ssb/classSearch/get_instructor?searchTerm=&offset=1&max=10000&term="
 )

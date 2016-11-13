@@ -51,6 +51,13 @@ func main() {
 	}
 	log.Print(courses)
 
+	instructors, _, err := c.Instructors.List(terms[0].Code)
+	if err != nil {
+		log.Print("Something went wrong fetching instructors.")
+		log.Fatal(err)
+	}
+	log.Print(instructors)
+
 	//_, err = FetchTermCourses(&terms[0])
 	log.Print("Done")
 }
