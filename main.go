@@ -54,6 +54,13 @@ func main() {
 	}
 	log.Print(instructors)
 	log.Print(courses[0])
+	description, _, err := c.Courses.GetDescription(terms[0].Code, courses[0].CourseReferenceNumber)
+	if err != nil {
+		log.Print("Something went wrong fetching course description.")
+		log.Fatal(err)
+	}
+	log.Printf("%+v", description)
+	log.Print(description)
 
 	log.Print("Done")
 }

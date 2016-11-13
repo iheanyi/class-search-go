@@ -1,5 +1,10 @@
 package main
 
+import (
+	"bytes"
+	"net/http"
+)
+
 type Course struct {
 	Id                       int                    `json:"id"`
 	Term                     string                 `json:"term"`
@@ -47,4 +52,36 @@ type Meeting struct {
 	Thursday          bool    `json:"thursday"`
 	Friday            bool    `json:"friday"`
 	Saturday          bool    `json:"saturday"`
+}
+
+const (
+	courseDescriptionPath = "StudentRegistrationSsb/ssb/searchResults/getCourseDescription"
+)
+
+type CoursesService struct {
+	client *Client
+}
+
+func (cs *CoursesService) GetDescription(term, crn string) (string, *http.Response, error) {
+	path := courseDescriptionPath
+
+	req, err := cs.client.NewRequest("POST", path, nil)
+	if err != nil {
+		return "", nil, err
+	}
+
+	// It's URL form encoded, so we'll have that in here.
+	q := req.URL.Query()
+	q.Set("term", term)
+	q.Set("courseReferenceNumber", crn)
+	req.URL.RawQuery = q.Encode()
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
+
+	description := bytes.NewBuffer(nil)
+	res, err := cs.client.Do(req, description)
+	if err != nil {
+		return "", res, err
+	}
+
+	return description.String(), res, nil
 }
