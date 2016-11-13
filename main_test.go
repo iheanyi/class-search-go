@@ -29,7 +29,7 @@ func setup(config func(mux *http.ServeMux)) (*Client, func()) {
 
 func testClientDefaultBaseURL(t *testing.T, c *Client) {
 	if c.BaseURL == nil || c.BaseURL.String() != defaultBaseURL {
-		t.Errorf("NewClient BaseURL = %v, expected  %v", c.BaseURL, defaultBaseURL)
+		t.Errorf("NewClient BaseURL = %v, expected %v", c.BaseURL, defaultBaseURL)
 	}
 }
 
