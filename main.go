@@ -33,14 +33,14 @@ func main() {
 	}
 	log.Print(subjects)
 
-	courses, _, err := c.TermDepartmentCourses.List(terms[0].Code, departments[0].Code)
+	courses, _, err := c.TermDepartmentCourses.List(terms[0].Code, subjects[0].Code)
 	if err != nil {
 		log.Print("Something went wrong fetching courses.")
 		log.Fatal(err)
 	}
 	log.Print(courses)
 
-	courses, _, err = c.TermDepartmentCourses.List(terms[0].Code, departments[1].Code)
+	courses, _, err = c.TermDepartmentCourses.List(terms[0].Code, subjects[1].Code)
 	if err != nil {
 		log.Print("Something went wrong fetching courses.")
 		log.Fatal(err)
@@ -53,6 +53,14 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Print(instructors)
+	log.Print(courses[0])
+	description, _, err := c.Courses.GetDescription(terms[0].Code, courses[0].CourseReferenceNumber)
+	if err != nil {
+		log.Print("Something went wrong fetching course description.")
+		log.Fatal(err)
+	}
+	log.Printf("%+v", description)
+	log.Print(description)
 
 	log.Print("Done")
 }

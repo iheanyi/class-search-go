@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
-	"io/ioutil"
-	"log"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
@@ -30,6 +28,7 @@ type Client struct {
 	Terms                 *TermsService
 	Departments           *DepartmentsService
 	TermDepartmentCourses *TermDepartmentCoursesService
+	Courses               *CoursesService
 	Subjects              *SubjectsService
 	Instructors           *InstructorsService
 }
@@ -54,6 +53,7 @@ func NewClient(httpClient *http.Client) (*Client, error) {
 	c.Departments = &DepartmentsService{client: c}
 	c.Subjects = &SubjectsService{client: c}
 	c.Instructors = &InstructorsService{client: c}
+	c.Courses = &CoursesService{client: c}
 	return c, nil
 }
 
@@ -133,43 +133,4 @@ func (c *Client) Do(req *http.Request, v interface{}) (*http.Response, error) {
 	}
 
 	return resp, err
-}
-
-func setupClient() (*http.Client, error) {
-	cookieJar, err := cookiejar.New(nil)
-
-	if err != nil {
-		return nil, err
-	}
-
-	client := &http.Client{
-		Jar: cookieJar,
-	}
-
-	return client, err
-}
-
-func authenticateClient(c *http.Client, term string) {
-	authURL := baseAuthTermURL + term
-	log.Print(authURL)
-
-	_, err := doGet(c, authURL)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func doGet(c *http.Client, URL string) (string, error) {
-	resp, err := c.Get(URL)
-	if err != nil {
-		return "", err
-	}
-	defer resp.Body.Close()
-
-	response, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", err
-	}
-
-	return string(response), err
 }

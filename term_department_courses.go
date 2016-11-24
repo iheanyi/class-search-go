@@ -14,7 +14,7 @@ type TermDepartmentCoursesService struct {
 	client *Client
 }
 
-func (ts *TermDepartmentCoursesService) List(term, dept string) ([]Course, *http.Response, error) {
+func (ts *TermDepartmentCoursesService) List(term, subject string) ([]Course, *http.Response, error) {
 	path := baseSearchPath
 
 	req, err := ts.client.NewRequest("GET", path, nil)
@@ -30,7 +30,8 @@ func (ts *TermDepartmentCoursesService) List(term, dept string) ([]Course, *http
 	}
 
 	q := req.URL.Query()
-	q.Set("txt_subject", dept)
+	q.Set("txt_subject", subject)
+	q.Set("txt_campus", "M")
 	q.Set("txt_term", term)
 	q.Set("pageMaxSize", "500")
 	req.URL.RawQuery = q.Encode()
